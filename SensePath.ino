@@ -1,22 +1,22 @@
 
-// PN532 예시 코드 출처 : https://how2electronics.com/interfacing-pn532-nfc-rfid-module-with-arduino/
+// Source of PN532 example code : https://how2electronics.com/interfacing-pn532-nfc-rfid-module-with-arduino/
 
 
-#include "Keyboard.h" // 아두이노 레오나르도 보드는 키보드 입력이 가능한 아두이노 보드임. 해당 키보드 입력 위한 라이브러리 포함
-//** 라이브러리 : 사용자가 쉽게 코드를 구현하기 위해서 다른 개발자가 먼저 만들어둔 레시피 모음 
-// 전문 쉐프(다른 개발자)들이 만든 레시피(라이브러리)를 일반인이 사용해서 요리(코딩)할 수 있도록 함. 
+#include "Keyboard.h" // The Arduino Leonardo board is an Arduino board capable of keyboard input. It includes a library for keyboard input
+//Library: A collection of pre-made “recipes” created by other developers to help users easily implement code
+// It allows ordinary people to cook (code) using recipes (libraries) created by professional chefs (other developers). 
 
-#include <SoftwareSerial.h> //PN532 NFC 태그 리더기 사용을 위한 라이브러리
-#include <PN532_SWHSU.h>    //PN532 NFC 태그 리더기 사용을 위한 라이브러리
-#include <PN532.h>          //PN532 NFC 태그 리더기 사용을 위한 라이브러리
+#include <SoftwareSerial.h> //Library for using the PN532 NFC tag reader.
+#include <PN532_SWHSU.h>    //Library for using the PN532 NFC tag reader.
+#include <PN532.h>          //Library for using the PN532 NFC tag reader.
 SoftwareSerial SWSerial( 9, 8 ); // RX, TX
 //https://docs.arduino.cc/learn/built-in-libraries/software-serial/
 //  the following can be used for RX: 8, 9, 10, 11, 14 (MISO), 15 (SCK), 16 (MOSI).
  
 PN532_SWHSU pn532swhsu( SWSerial );
 PN532 nfc( pn532swhsu );
-String tagId = "None", dispTag = "None"; // PN532 카드 태그 리더기가 카드 데이터를 읽으면 저장할 String 변수
-byte nuidPICC[4];                        // PN532 카드 태그 리더기가 카드 데이터를 읽으면 저장할 byte 배열 
+String tagId = "None", dispTag = "None"; // A string variable to store card data when the PN532 card tag reader reads a card
+byte nuidPICC[4];                        // A byte array to store card data when the PN532 card tag reader reads a card
 
 
 const char CARD_ID_1[]  = "4.148.173.169";
@@ -96,14 +96,14 @@ const char CARD_ID_RESET2[] = "115.63.173.29";
 
 void setup(void)
 {
-  Serial.begin(115200); // 시리얼 모니터를 통해서 아두이노 내부의 변수 및 상태를 확인하기 위해 Serial 시작 함수
-  delay(1000);          // 1초 딜레이 
+  Serial.begin(115200); // The function to start Serial communication in order to check the variables and status inside the Arduino through the Serial Monitor.
+  delay(1000);          // 1 second delay 
   Serial.println("ASD EDU SYSTEM KIT 2024");
   delay(1000);
 
-  // PN532 카드 리더기 초기화 진행 ( 이니셜라이즈 ) 
-  SWSerial.begin(9600); // PN532 모듈 사용을 위한 초기화 명령어
-  nfc.begin();          // PN532 모듈과 아두이노간 통신을 개시하기 위한 명령어
+  // Initializing the PN532 card reader (Initialization process). 
+  SWSerial.begin(9600); // Initialization command for using the PN532 module.
+  nfc.begin();          // Command to initiate communication between the PN532 module and Arduino.
   uint32_t versiondata = nfc.getFirmwareVersion();
   if (! versiondata){
     Serial.print("Didn't Find PN53x Module");
